@@ -1,0 +1,4 @@
+include ':framework'
+include ':generic'
+include ':android-nfc'
+include ':android-demo'

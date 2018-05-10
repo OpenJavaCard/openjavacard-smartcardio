@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">SmartcardIO Demo</string>
+
+    <string name="activity_main_label">SCIO Demo</string>
+    <string name="activity_main_title">SmartcardIO Demo</string>
+    <string name="activity_settings_label">SCIO Settings</string>
+    <string name="activity_settings_title">SmartcardIO Settings</string>
+    <string name="activity_about_label">About SmartcardIO</string>
+
+    <string name="action_settings_title">Settings</string>
+    <string name="action_about_title">About</string>
+
+    <string name="pref_header_general">General</string>
+
+</resources>
