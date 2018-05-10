@@ -9,28 +9,36 @@ import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import org.openjavacard.smartcardio.android.demo.R;
 
-public class SettingsFragment extends PreferenceFragment {
+import java.util.Map;
+
+public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
 
     private static final String TAG = SettingsFragment.class.getName();
+
+    private SharedPreferences mPreferences;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate()");
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public void onCreatePreferences(Bundle savedState, String rootKey) {
         Log.d(TAG, "onCreatePreferences()");
-        setPreferencesFromResource(R.xml.settings, rootKey);
-        /*
+        addPreferencesFromResource(R.xml.settings);
+        // bind summaries of list preferences
         PreferenceManager pm = getPreferenceManager();
-        SharedPreferences prefs = pm.getSharedPreferences();
-        Map<String, ?> map = prefs.getAll();
+        mPreferences = pm.getSharedPreferences();
+        Map<String, ?> map = mPreferences.getAll();
         if(map != null) {
             for (String key : map.keySet()) {
                 Preference pref = pm.findPreference(key);
                 bindPreferenceSummaryToValue(pref);
             }
         }
-        */
     }
 
-    /*
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         Log.d(TAG, "onPreferenceChange(" + preference.getKey() + ")");
@@ -53,6 +61,5 @@ public class SettingsFragment extends PreferenceFragment {
             onPreferenceChange(preference, ((ListPreference) preference).getValue());
         }
     }
-    */
 
 }

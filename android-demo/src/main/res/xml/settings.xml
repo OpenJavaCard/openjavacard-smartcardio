@@ -1,3 +1,11 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory android:title="@string/pref_general_title">
+        <ListPreference android:key="pref_stay_awake"
+                        android:entries="@array/pref_stay_awake_titles"
+                        android:entryValues="@array/pref_stay_awake_values"
+                        android:defaultValue="60"
+                        android:title="@string/pref_stay_awake_title"/>
+    </PreferenceCategory>
+
 </PreferenceScreen>

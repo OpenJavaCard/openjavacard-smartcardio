@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.openjavacard.smartcardio.android.demo">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
     <application
             android:allowBackup="false"
             android:icon="@mipmap/ic_launcher"

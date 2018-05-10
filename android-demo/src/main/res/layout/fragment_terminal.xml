@@ -44,6 +44,7 @@
     </android.support.v7.widget.CardView>
 
     <Button android:id="@+id/dismiss_button"
+            android:text="@string/button_dismiss_text"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"

@@ -16,7 +16,7 @@ public class SmartcardIOAndroidNfc {
 
     private static final String TAG = SmartcardIOAndroidNfc.class.getName();
 
-    private static final long POLL_INTERVAL = 1000;
+    private static final long POLL_INTERVAL = 2000;
 
     /** Activity that we are using for NFC */
     private final Activity mActivity;
@@ -28,7 +28,6 @@ public class SmartcardIOAndroidNfc {
     private NfcAdapter mAdapter;
     /** SmartcardIO terminals object */
     private NfcCardTerminals mTerminals;
-
 
     public SmartcardIOAndroidNfc(Activity activity) {
         mActivity = activity;

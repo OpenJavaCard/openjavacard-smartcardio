@@ -10,19 +10,23 @@ import android.widget.ListView;
 import org.openjavacard.smartcardio.android.demo.R;
 import org.openjavacard.smartcardio.android.demo.activity.MainActivity;
 import org.openjavacard.smartcardio.generic.GenericCardTerminal;
+import org.openjavacard.smartcardio.generic.GenericCardTerminals;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TerminalListFragment extends ListFragment {
 
     private MainActivity mActivity;
 
+    private GenericCardTerminals mTerminals;
     private ArrayAdapter<GenericCardTerminal> mAdapter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActivity = (MainActivity)getActivity();
+        update();
     }
 
     @Override
@@ -30,23 +34,38 @@ public class TerminalListFragment extends ListFragment {
         super.onViewCreated(view, savedInstanceState);
         mAdapter = new ArrayAdapter<>(getContext(), R.layout.item_terminal);
         setListAdapter(mAdapter);
+        update();
     }
 
-    public void setTerminals(final List<GenericCardTerminal> terminals) {
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.clear();
-                mAdapter.addAll(terminals);
-                mAdapter.notifyDataSetChanged();
-            }
-        });
+    @Override
+    public void onResume() {
+        super.onResume();
+        update();
+    }
+
+    public void setTerminals(GenericCardTerminals terminals) {
+        mTerminals = terminals;
+        update();
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         GenericCardTerminal terminal = mAdapter.getItem(position);
         mActivity.switchToTerminalInfo(terminal);
+    }
+
+    private void update() {
+        if(mActivity != null) {
+            mActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.clear();
+                    if(mTerminals != null) {
+                        mAdapter.addAll(mTerminals.getTerminals());
+                    }
+                }
+            });
+        }
     }
 
 }
