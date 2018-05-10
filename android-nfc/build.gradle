@@ -30,3 +30,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 }
+
+sourceSets {
+    main {
+        // disable NDK build
+        jni.srcDirs = []
+    }
+}
