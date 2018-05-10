@@ -120,6 +120,9 @@ public abstract class GenericCardTerminals extends CardTerminals {
 
     @Override
     public boolean waitForChange(long timeout) throws CardException {
+        if(timeout < 0) {
+            throw new IllegalArgumentException();
+        }
         mLock.lock();
         try {
             return mCondition.await(timeout, TimeUnit.MILLISECONDS);

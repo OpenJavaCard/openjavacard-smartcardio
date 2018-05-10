@@ -1,5 +1,6 @@
 package org.openjavacard.smartcardio.android.nfc;
 
+import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
 import org.openjavacard.smartcardio.generic.GenericCard;
 import org.openjavacard.smartcardio.generic.GenericCardChannel;
@@ -12,24 +13,16 @@ import javax.smartcardio.CardException;
 public class NfcCard extends GenericCard {
 
     private NfcCardTerminal mTerminal;
+    private Tag mTag;
     private IsoDep mIsoTag;
     private GenericCardChannel mBasicChannel;
 
-    NfcCard(NfcCardTerminal terminal, IsoDep isoTag) {
+    NfcCard(NfcCardTerminal terminal, Tag tag, IsoDep isoTag) {
         super(terminal);
         mTerminal = terminal;
+        mTag = tag;
         mIsoTag = isoTag;
         mBasicChannel = new GenericCardChannel(this, 0);
-    }
-
-    @Override
-    public ATR getATR() {
-        return null;
-    }
-
-    @Override
-    public String getProtocol() {
-        return "T=CL";
     }
 
     @Override

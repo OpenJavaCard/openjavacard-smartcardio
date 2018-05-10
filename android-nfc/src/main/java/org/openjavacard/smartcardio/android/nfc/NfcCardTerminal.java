@@ -1,5 +1,6 @@
 package org.openjavacard.smartcardio.android.nfc;
 
+import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
 import org.openjavacard.smartcardio.generic.GenericCardTerminal;
 import org.slf4j.Logger;
@@ -19,14 +20,16 @@ public class NfcCardTerminal extends GenericCardTerminal {
     private static final AtomicInteger ID_COUNTER = new AtomicInteger();
 
     private NfcCardTerminals mTerminals;
+    private Tag mTag;
     private IsoDep mIsoTag;
     private NfcCard mCard;
 
-    NfcCardTerminal(NfcCardTerminals terminals, IsoDep isoTag) {
+    NfcCardTerminal(NfcCardTerminals terminals, Tag tag, IsoDep isoTag) {
         super(terminals, "NFC tag #" + ID_COUNTER.getAndIncrement());
         mTerminals = terminals;
+        mTag = tag;
         mIsoTag = isoTag;
-        mCard = new NfcCard(this, isoTag);
+        mCard = new NfcCard(this, tag, isoTag);
     }
 
     void checkConnected() throws CardException {

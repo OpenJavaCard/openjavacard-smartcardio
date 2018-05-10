@@ -1,5 +1,6 @@
 package org.openjavacard.smartcardio.android.nfc;
 
+import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
 import android.util.Log;
 import org.openjavacard.smartcardio.generic.GenericCardTerminal;
@@ -25,11 +26,11 @@ public class NfcCardTerminals extends GenericCardTerminals {
     NfcCardTerminals() {
     }
 
-    void newTag(IsoDep isoTag) {
+    void newTag(Tag tag, IsoDep isoTag) {
         Log.i(TAG, "newTag()");
         try {
             isoTag.connect();
-            addTerminal(new NfcCardTerminal(this, isoTag));
+            addTerminal(new NfcCardTerminal(this, tag, isoTag));
         } catch (IOException e) {
             Log.e(TAG, "Could not connect to tag", e);
         }

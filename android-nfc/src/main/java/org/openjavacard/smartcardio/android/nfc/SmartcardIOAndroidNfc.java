@@ -23,7 +23,7 @@ public class SmartcardIOAndroidNfc {
     /** Handler for polling */
     private final Handler mHandler;
     /** Runnable doing the polling */
-    private final Runnable mPoller;
+    private final NfcPollerRunnable mPoller;
     /** Adapter in use */
     private NfcAdapter mAdapter;
     /** SmartcardIO terminals object */
@@ -32,13 +32,7 @@ public class SmartcardIOAndroidNfc {
     public SmartcardIOAndroidNfc(Activity activity) {
         mActivity = activity;
         mHandler = new Handler(activity.getMainLooper());
-        mPoller = new Runnable() {
-            @Override
-            public void run() {
-                poll();
-                mHandler.postDelayed(this, POLL_INTERVAL);
-            }
-        };
+        mPoller = new NfcPollerRunnable();
         mAdapter = null;
         mTerminals = new NfcCardTerminals();
     }
@@ -82,16 +76,20 @@ public class SmartcardIOAndroidNfc {
         mHandler.removeCallbacks(mPoller);
     }
 
-    private void poll() {
-        Log.i(TAG, "poll()");
-        for(GenericCardTerminal terminal: mTerminals.getTerminals()) {
-            try {
-                if(!terminal.isCardPresent()) {
-                    mTerminals.removeTerminal(terminal);
+    private class NfcPollerRunnable implements Runnable {
+        @Override
+        public void run() {
+            Log.i(TAG, "poll()");
+            for(GenericCardTerminal terminal: mTerminals.getTerminals()) {
+                try {
+                    if(!terminal.isCardPresent()) {
+                        mTerminals.removeTerminal(terminal);
+                    }
+                } catch (CardException e) {
+                    Log.e(TAG, "Error polling for card", e);
                 }
-            } catch (CardException e) {
-                Log.e(TAG, "Error polling for card", e);
             }
+            mHandler.postDelayed(this, POLL_INTERVAL);
         }
     }
 
@@ -101,7 +99,7 @@ public class SmartcardIOAndroidNfc {
             Log.i(TAG, "onTagDiscovered()");
             IsoDep tagIso = IsoDep.get(tag);
             if(tagIso != null) {
-                mTerminals.newTag(tagIso);
+                mTerminals.newTag(tag, tagIso);
             }
         }
     }
