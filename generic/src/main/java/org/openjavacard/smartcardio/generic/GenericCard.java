@@ -45,7 +45,7 @@ public abstract class GenericCard extends Card {
         mLock.lock();
         try {
             if(mOwner != null) {
-                throw new CardException("Card already owned by " + mOwner);
+                throw new CardException("Card already owned by thread " + mOwner);
             }
             mOwner = Thread.currentThread();
         } finally {
@@ -58,10 +58,10 @@ public abstract class GenericCard extends Card {
         mLock.lock();
         try {
             if(mOwner == null) {
-                throw new CardException("Card already not owned");
+                throw new CardException("Card not owned");
             }
             if(mOwner != Thread.currentThread()) {
-                throw new CardException("Card is owned by other " + mOwner);
+                throw new CardException("Card is owned by other thread " + mOwner);
             }
             mOwner = null;
         } finally {
