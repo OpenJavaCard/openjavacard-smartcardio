@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "org.openjavacard.smartcardio.android.demo"
-        minSdkVersion 19
-        targetSdkVersion 27
+        minSdkVersion 20
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -29,13 +29,13 @@ android {
 dependencies {
     compile project(':android-nfc')
     // https://mvnrepository.com/artifact/com.android.support/appcompat-v7
-    compile 'com.android.support:appcompat-v7:27.1.1'
+    compile 'com.android.support:appcompat-v7:28.0.0'
     // https://mvnrepository.com/artifact/com.android.support/cardview-v7
-    compile 'com.android.support:cardview-v7:27.1.1'
+    compile 'com.android.support:cardview-v7:28.0.0'
     // https://mvnrepository.com/artifact/com.android.support/design
-    compile 'com.android.support:design:27.1.1'
+    compile 'com.android.support:design:28.0.0'
     // https://mvnrepository.com/artifact/com.android.support/preference-v7
-    compile 'com.android.support:preference-v7:27.1.1'
+    compile 'com.android.support:preference-v7:28.0.0'
     // https://mvnrepository.com/artifact/com.android.support.constraint/constraint-layout
     compile 'com.android.support.constraint:constraint-layout:1.1.0'
     // https://mvnrepository.com/artifact/junit/junit
