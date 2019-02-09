@@ -2,4 +2,7 @@ out/**
 build/**
 .gradle/**
 .idea/**
+**/*.iml
+**/*.ipr
+**/build
 local.properties
