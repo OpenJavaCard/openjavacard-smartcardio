@@ -25,7 +25,7 @@ public abstract class GenericCard extends Card {
         mTerminal = terminal;
     }
 
-    void connected(String protocol, ATR atr) {
+    public void connected(String protocol, ATR atr) {
         mProtocol = protocol;
         mATR = atr;
     }
@@ -67,6 +67,11 @@ public abstract class GenericCard extends Card {
         } finally {
             mLock.unlock();
         }
+    }
+
+    @Override
+    public byte[] transmitControlCommand(int controlCode, byte[] command) throws CardException {
+        throw new UnsupportedOperationException("Control commands not supported");
     }
 
 }

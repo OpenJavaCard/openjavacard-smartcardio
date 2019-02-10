@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import javax.smartcardio.Card;
 import javax.smartcardio.CardException;
 import javax.smartcardio.CardNotPresentException;
-import javax.smartcardio.CardTerminal;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -58,6 +57,7 @@ public class NfcCardTerminal extends GenericCardTerminal {
             if(!mIsoTag.isConnected()) {
                 throw new CardNotPresentException("NFC tag no longer present");
             }
+            mCard.connected("T=CL", null);
             return mCard;
         } else {
             throw new IllegalArgumentException("Protocol " + protocol + " not supported");

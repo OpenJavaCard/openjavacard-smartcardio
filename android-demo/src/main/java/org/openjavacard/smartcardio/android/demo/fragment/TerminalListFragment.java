@@ -12,9 +12,6 @@ import org.openjavacard.smartcardio.android.demo.activity.MainActivity;
 import org.openjavacard.smartcardio.generic.GenericCardTerminal;
 import org.openjavacard.smartcardio.generic.GenericCardTerminals;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TerminalListFragment extends ListFragment {
 
     private MainActivity mActivity;

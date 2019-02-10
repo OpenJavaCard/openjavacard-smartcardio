@@ -11,7 +11,8 @@ We implemented this because we need it for our Android applications.
 ### Features
 
  * Android support
-   * Access to NFC cards and tokens
+   * Access NFC cards and tokens
+   * Access SIM cards and other SE via OMAPI
    * Demo app
  * Framework
    * Not fully completed
@@ -21,6 +22,7 @@ We implemented this because we need it for our Android applications.
  * Not completed
  * Goals
     * Support NFC first and well
+    * Support OMAPI well
     * Want to support USB
     * Want to support Bluetooth/BLE
 
@@ -34,7 +36,7 @@ Vast majority of the code has been developed for this project:
 
 ```
 openjavacard-smartcardio: OpenJavaCard SmartcardIO
-Copyright (C) 2018 Ingo Albrecht, prom@berlin.ccc.de
+Copyright (C) 2018-2019 Ingo Albrecht, prom@berlin.ccc.de
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public

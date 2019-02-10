@@ -1,0 +1,38 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
+    defaultConfig {
+        minSdkVersion 20
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            // disable NDK build
+            jni.srcDirs = []
+        }
+    }
+}
+
+dependencies {
+    compile project(':framework')
+    compile project(':generic')
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    compile 'org.slf4j:slf4j-api:1.7.25'
+    // https://mvnrepository.com/artifact/junit/junit
+    testCompile 'junit:junit:4.12'
+    // https://mvnrepository.com/artifact/com.android.support.test.espresso/espresso-core
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+}

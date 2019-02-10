@@ -7,16 +7,14 @@ import android.nfc.tech.IsoDep;
 import android.os.Handler;
 import android.util.Log;
 import org.openjavacard.smartcardio.generic.GenericCardTerminal;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.smartcardio.CardException;
 
-public class SmartcardIOAndroidNfc {
+public class AndroidNfcSCIO {
 
-    private static final String TAG = SmartcardIOAndroidNfc.class.getName();
+    private static final String TAG = AndroidNfcSCIO.class.getName();
 
-    private static final long POLL_INTERVAL = 2000;
+    private static final long POLL_INTERVAL = 1000;
 
     /** Activity that we are using for NFC */
     private final Activity mActivity;
@@ -29,7 +27,7 @@ public class SmartcardIOAndroidNfc {
     /** SmartcardIO terminals object */
     private NfcCardTerminals mTerminals;
 
-    public SmartcardIOAndroidNfc(Activity activity) {
+    public AndroidNfcSCIO(Activity activity) {
         mActivity = activity;
         mHandler = new Handler(activity.getMainLooper());
         mPoller = new NfcPollerRunnable();

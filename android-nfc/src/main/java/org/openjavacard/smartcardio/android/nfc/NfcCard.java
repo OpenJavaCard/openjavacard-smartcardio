@@ -5,8 +5,6 @@ import android.nfc.tech.IsoDep;
 import org.openjavacard.smartcardio.generic.GenericCard;
 import org.openjavacard.smartcardio.generic.GenericCardChannel;
 
-import javax.smartcardio.ATR;
-import javax.smartcardio.Card;
 import javax.smartcardio.CardChannel;
 import javax.smartcardio.CardException;
 
@@ -22,7 +20,7 @@ public class NfcCard extends GenericCard {
         mTerminal = terminal;
         mTag = tag;
         mIsoTag = isoTag;
-        mBasicChannel = new GenericCardChannel(this, 0);
+        mBasicChannel = new NfcCardChannel(this, 0);
     }
 
     @Override
@@ -40,11 +38,6 @@ public class NfcCard extends GenericCard {
     public CardChannel openLogicalChannel() throws CardException {
         mTerminal.checkConnected();
         return null;
-    }
-
-    @Override
-    public byte[] transmitControlCommand(int controlCode, byte[] command) throws CardException {
-        throw new UnsupportedOperationException("Control commands not supported");
     }
 
     @Override

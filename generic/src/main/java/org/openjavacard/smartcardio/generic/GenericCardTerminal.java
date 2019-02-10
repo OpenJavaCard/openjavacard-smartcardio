@@ -2,7 +2,6 @@ package org.openjavacard.smartcardio.generic;
 
 import javax.smartcardio.CardException;
 import javax.smartcardio.CardTerminal;
-import javax.smartcardio.CardTerminals;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;

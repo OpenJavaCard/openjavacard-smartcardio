@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import org.openjavacard.smartcardio.android.demo.R;
 import org.openjavacard.smartcardio.android.demo.activity.MainActivity;
 import org.openjavacard.smartcardio.generic.GenericCardTerminal;

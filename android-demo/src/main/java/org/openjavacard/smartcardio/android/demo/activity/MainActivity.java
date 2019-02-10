@@ -16,7 +16,7 @@ import org.openjavacard.smartcardio.android.demo.R;
 import org.openjavacard.smartcardio.android.demo.application.DemoPreferences;
 import org.openjavacard.smartcardio.android.demo.fragment.TerminalInfoFragment;
 import org.openjavacard.smartcardio.android.demo.fragment.TerminalListFragment;
-import org.openjavacard.smartcardio.android.nfc.SmartcardIOAndroidNfc;
+import org.openjavacard.smartcardio.android.nfc.AndroidNfcSCIO;
 import org.openjavacard.smartcardio.generic.GenericCardTerminal;
 import org.openjavacard.smartcardio.generic.GenericCardTerminals;
 
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements GenericCardTermin
     private PowerManager.WakeLock mWakeLock;
     private Runnable mWakeTimer;
 
-    private SmartcardIOAndroidNfc mNfcSC;
+    private AndroidNfcSCIO mNfcSC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements GenericCardTermin
         mTerminalList = new TerminalListFragment();
         mTerminalInfo = new TerminalInfoFragment();
         // create SCIO interfaces
-        mNfcSC = new SmartcardIOAndroidNfc(this);
+        mNfcSC = new AndroidNfcSCIO(this);
         mNfcSC.getTerminals().setListener(this);
         // set up wake lock
         mPowerManager = (PowerManager)getSystemService(POWER_SERVICE);
