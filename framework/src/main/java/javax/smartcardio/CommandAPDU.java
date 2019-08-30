@@ -19,6 +19,8 @@ public class CommandAPDU {
      * @param apduLength
      */
     public CommandAPDU(byte[] apdu, int apduOffset, int apduLength) {
+        mBytes = Arrays.copyOfRange(apdu, apduOffset, apduLength);
+        mNc = apduLength;
     }
 
     /**
