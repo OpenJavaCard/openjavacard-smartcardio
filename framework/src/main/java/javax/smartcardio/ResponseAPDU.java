@@ -6,7 +6,7 @@ public class ResponseAPDU {
     private byte[] mBytes;
 
     public ResponseAPDU(byte[] apdu) {
-        this.mBytes = apdu;
+        this.mBytes = apdu.clone();
     }
 
     public byte[] getBytes() {
