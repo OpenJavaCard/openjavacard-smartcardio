@@ -25,11 +25,14 @@ public abstract class GenericCardChannel extends CardChannel {
 
     @Override
     public ResponseAPDU transmit(CommandAPDU command) throws CardException {
+        // serialize the command
         byte[] commandBytes = command.getBytes();
         ByteBuffer commandBuffer = ByteBuffer.wrap(commandBytes);
         ByteBuffer responseBuffer = ByteBuffer.allocate(command.getNe());
         commandBuffer.put(commandBytes);
+        // perform the operation
         int responseLength = transmit(commandBuffer, responseBuffer);
+        // unpack response
         byte[] responseBytes = new byte[responseLength];
         responseBuffer.get(responseBytes, 0, responseLength);
         return new ResponseAPDU(responseBytes);
