@@ -27,21 +27,22 @@ android {
 }
 
 dependencies {
-    compile project(':android-nfc')
+    implementation project(':android-nfc')
+    implementation project(':android-omapi')
     // https://mvnrepository.com/artifact/com.android.support/appcompat-v7
-    compile 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
     // https://mvnrepository.com/artifact/com.android.support/cardview-v7
-    compile 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support:cardview-v7:28.0.0'
     // https://mvnrepository.com/artifact/com.android.support/design
-    compile 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
     // https://mvnrepository.com/artifact/com.android.support/preference-v7
-    compile 'com.android.support:preference-v7:28.0.0'
+    implementation 'com.android.support:preference-v7:28.0.0'
     // https://mvnrepository.com/artifact/com.android.support.constraint/constraint-layout
-    compile 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     // https://mvnrepository.com/artifact/junit/junit
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
     // https://mvnrepository.com/artifact/com.android.support.test.espresso/espresso-core
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 }

@@ -25,14 +25,14 @@ android {
 }
 
 dependencies {
-    compile project(':framework')
-    compile project(':generic')
+    api project(':framework')
+    api project(':generic')
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-    compile 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'org.slf4j:slf4j-api:1.7.25'
     // https://mvnrepository.com/artifact/junit/junit
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
     // https://mvnrepository.com/artifact/com.android.support.test.espresso/espresso-core
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 }
