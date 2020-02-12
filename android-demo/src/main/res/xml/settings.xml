@@ -8,4 +8,16 @@
                         android:title="@string/pref_stay_awake_title"/>
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_nfc_title">
+        <CheckBoxPreference android:key="pref_use_nfc"
+                            android:title="@string/pref_use_nfc_title"
+                            android:defaultValue="true"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_omapi_title">
+        <CheckBoxPreference android:key="pref_use_omapi"
+                            android:title="@string/pref_use_omapi_title"
+                            android:defaultValue="true"/>
+    </PreferenceCategory>
+
 </PreferenceScreen>

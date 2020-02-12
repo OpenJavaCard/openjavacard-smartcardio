@@ -17,12 +17,14 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // set the layout
         setContentView(R.layout.activity_settings);
-        // enable up-navigation
+        // configure the action bar
         ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        // set up action bar
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.activity_settings_title);
+        if(actionbar != null) {
+            // enable up-navigation
+            actionbar.setDisplayHomeAsUpEnabled(true);
+            // set up action bar
+            actionbar.setTitle(R.string.activity_settings_title);
+        }
     }
 
 }

@@ -26,6 +26,7 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
     @Override
     public void onCreatePreferences(Bundle savedState, String rootKey) {
         Log.d(TAG, "onCreatePreferences()");
+        // create preferences from XML
         addPreferencesFromResource(R.xml.settings);
         // bind summaries of list preferences
         PreferenceManager pm = getPreferenceManager();

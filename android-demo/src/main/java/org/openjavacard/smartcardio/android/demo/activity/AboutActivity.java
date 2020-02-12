@@ -14,7 +14,7 @@ public class AboutActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
         // set the layout
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_about);
     }
 
 }

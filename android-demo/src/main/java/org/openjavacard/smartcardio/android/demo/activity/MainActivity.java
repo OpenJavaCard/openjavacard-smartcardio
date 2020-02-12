@@ -8,6 +8,7 @@ import android.os.PowerManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,10 +18,16 @@ import org.openjavacard.smartcardio.android.demo.application.DemoPreferences;
 import org.openjavacard.smartcardio.android.demo.fragment.TerminalInfoFragment;
 import org.openjavacard.smartcardio.android.demo.fragment.TerminalListFragment;
 import org.openjavacard.smartcardio.android.nfc.AndroidNfcSCIO;
+import org.openjavacard.smartcardio.android.omapi.AndroidOmapiSCIO;
 import org.openjavacard.smartcardio.generic.GenericCardTerminal;
 import org.openjavacard.smartcardio.generic.GenericCardTerminals;
 
-public class MainActivity extends AppCompatActivity implements GenericCardTerminals.Listener, SharedPreferences.OnSharedPreferenceChangeListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity
+        implements GenericCardTerminals.Listener,
+        SharedPreferences.OnSharedPreferenceChangeListener, FragmentManager.OnBackStackChangedListener{
 
     private static final String TAG = MainActivity.class.getName();
 
@@ -37,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements GenericCardTermin
     private Runnable mWakeTimer;
 
     private AndroidNfcSCIO mNfcSC;
+    private AndroidOmapiSCIO mOmapiSC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +58,19 @@ public class MainActivity extends AppCompatActivity implements GenericCardTermin
         // create handler
         mHandler = new Handler(getMainLooper());
         // get prefs
-        mPreferences = getPreferences(MODE_PRIVATE);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mPreferences.registerOnSharedPreferenceChangeListener(this);
-        // create the list fragment
+        // get fragment manager and set up up navigation
         mFragmentManager = getSupportFragmentManager();
+        mFragmentManager.addOnBackStackChangedListener(this);
+        // create fragments
         mTerminalList = new TerminalListFragment();
         mTerminalInfo = new TerminalInfoFragment();
         // create SCIO interfaces
         mNfcSC = new AndroidNfcSCIO(this);
         mNfcSC.getTerminals().setListener(this);
+        mOmapiSC = new AndroidOmapiSCIO(this);
+        mOmapiSC.getTerminals().setListener(this);
         // set up wake lock
         mPowerManager = (PowerManager)getSystemService(POWER_SERVICE);
         mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
@@ -100,7 +112,9 @@ public class MainActivity extends AppCompatActivity implements GenericCardTermin
         Log.d(TAG, "onResume()");
         super.onResume();
         mNfcSC.enable();
+        mOmapiSC.enable();
         acquireWakeLock();
+        updateUpEnabled();
         updateTerminals();
         updateWakeTimer();
     }
@@ -109,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements GenericCardTermin
     protected void onPause() {
         Log.d(TAG, "onPause()");
         releaseWakeLock();
+        mOmapiSC.disable();
         mNfcSC.disable();
         super.onPause();
     }
@@ -122,16 +137,15 @@ public class MainActivity extends AppCompatActivity implements GenericCardTermin
 
     @Override
     public void onTerminalAdded(GenericCardTerminals terminals, GenericCardTerminal terminal) {
-        Log.d(TAG, "onTerminalAdded()");
+        Log.d(TAG, "onTerminalAdded(" + terminal.getName() + ")");
         updateTerminals();
     }
 
     @Override
     public void onTerminalRemoved(GenericCardTerminals terminals, GenericCardTerminal terminal) {
-        Log.d(TAG, "onTerminalRemoved()");
+        Log.d(TAG, "onTerminalRemoved(" + terminal.getName() + ")");
         updateTerminals();
     }
-
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -140,7 +154,24 @@ public class MainActivity extends AppCompatActivity implements GenericCardTermin
             case DemoPreferences.STAY_AWAKE:
                 updateWakeTimer();
                 break;
+            case DemoPreferences.USE_NFC:
+            case DemoPreferences.USE_OMAPI:
+                updateTerminals();
+                break;
         }
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        Log.d(TAG, "onBackStackChanged()");
+        updateUpEnabled();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        Log.d(TAG, "onSupportNavigateUp()");
+        mFragmentManager.popBackStack();
+        return true;
     }
 
     private void acquireWakeLock() {
@@ -158,10 +189,15 @@ public class MainActivity extends AppCompatActivity implements GenericCardTermin
         }
     }
 
+    private void updateUpEnabled() {
+        boolean haveBackStack = mFragmentManager.getBackStackEntryCount() > 0;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(haveBackStack);
+    }
+
     private void updateWakeTimer() {
         Log.d(TAG, "updateWakeTimer()");
         String stayAwakeString = mPreferences.getString(DemoPreferences.STAY_AWAKE, "60");
-        int stayAwake = Integer.valueOf(stayAwakeString);
+        int stayAwake = Integer.parseInt(stayAwakeString);
         mHandler.removeCallbacks(mWakeTimer);
         if(stayAwake > 0) {
             mHandler.postDelayed(mWakeTimer, stayAwake * 1000);
@@ -182,18 +218,36 @@ public class MainActivity extends AppCompatActivity implements GenericCardTermin
         Log.d(TAG, "switchToTerminalList()");
         updateWakeTimer();
         updateTerminals();
-        mFragmentManager.beginTransaction().replace(R.id.main_layout, mTerminalList).commit();
+        mFragmentManager.beginTransaction()
+                .replace(R.id.main_layout, mTerminalList)
+                .commit();
     }
 
     public void switchToTerminalInfo(GenericCardTerminal terminal) {
         Log.d(TAG, "switchToTerminalInfo(" + terminal + ")");
         updateWakeTimer();
         mTerminalInfo.setTerminal(terminal);
-        mFragmentManager.beginTransaction().replace(R.id.main_layout, mTerminalInfo).commit();
+        mFragmentManager.beginTransaction()
+                .replace(R.id.main_layout, mTerminalInfo)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void updateTerminals() {
-        mTerminalList.setTerminals(mNfcSC.getTerminals());
+        Log.d(TAG, "updateTerminals()");
+        // check preferences
+        boolean useOMAPI = mPreferences.getBoolean(DemoPreferences.USE_OMAPI, false);
+        boolean useNFC = mPreferences.getBoolean(DemoPreferences.USE_NFC, false);
+        // collect all terminals
+        List<GenericCardTerminal> terminals = new ArrayList<>();
+        if(useOMAPI) {
+            terminals.addAll(mOmapiSC.getTerminals().getTerminals());
+        }
+        if(useNFC) {
+            terminals.addAll(mNfcSC.getTerminals().getTerminals());
+        }
+        // update the list
+        mTerminalList.setTerminals(terminals);
     }
 
 }
