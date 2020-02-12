@@ -31,8 +31,23 @@ public class OmapiCard extends GenericCard {
     @Override
     @TargetApi(28)
     public OmapiCardChannel openLogicalChannel() throws CardException {
+        return openLogicalChannel(null);
+    }
+
+    @TargetApi(28)
+    public OmapiCardChannel openBasicChannel(byte[] aid) throws CardException {
         try {
-            Channel channel = mSession.openLogicalChannel(null);
+            Channel channel = mSession.openBasicChannel(aid);
+            return new OmapiCardChannel(this, true, channel);
+        } catch (IOException e) {
+            throw new CardException("Could not open basic channel", e);
+        }
+    }
+
+    @TargetApi(28)
+    public OmapiCardChannel openLogicalChannel(byte[] aid) throws CardException {
+        try {
+            Channel channel = mSession.openLogicalChannel(aid);
             return new OmapiCardChannel(this, false, channel);
         } catch (IOException e) {
             throw new CardException("Could not open logical channel", e);

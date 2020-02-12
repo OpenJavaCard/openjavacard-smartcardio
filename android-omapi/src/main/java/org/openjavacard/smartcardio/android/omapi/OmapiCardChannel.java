@@ -10,7 +10,9 @@ import java.nio.ByteBuffer;
 
 public class OmapiCardChannel extends GenericCardChannel {
 
+    /** True if this is the basic channel */
     private boolean mIsBasic;
+    /** OMAPI channel object */
     private Channel mChannel;
 
     OmapiCardChannel(OmapiCard card, boolean isBasic, Channel channel) {
@@ -23,10 +25,10 @@ public class OmapiCardChannel extends GenericCardChannel {
 
     /**
      * Return the channel number
-     *
+     * <p/>
      * On OMAPI we always return 0 or 1 because
      * we do not know the actual channel number.
-     *
+     * <p/>
      * @return fake channel number
      */
     @Override
