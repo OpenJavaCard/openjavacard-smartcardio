@@ -32,7 +32,7 @@ public class AndroidOmapiSCIO {
     }
 
     public void enable() {
-        Log.i(TAG, "enable()");
+        Log.d(TAG, "enable()");
         // connect to service
         mService = new SEService(mContext, mConnectExecutor, mConnectListener);
     }

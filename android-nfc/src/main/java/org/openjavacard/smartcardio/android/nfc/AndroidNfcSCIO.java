@@ -54,7 +54,7 @@ public class AndroidNfcSCIO {
     }
 
     public void enable() {
-        Log.i(TAG, "enable()");
+        Log.d(TAG, "enable()");
         NfcAdapter adapter = NfcAdapter.getDefaultAdapter(mActivity);
         int flags =
                 NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK
@@ -66,7 +66,7 @@ public class AndroidNfcSCIO {
     }
 
     public void disable() {
-        Log.i(TAG, "disable()");
+        Log.d(TAG, "disable()");
         if(mAdapter != null) {
             mAdapter.disableReaderMode(mActivity);
             mAdapter = null;
@@ -77,7 +77,7 @@ public class AndroidNfcSCIO {
     private class NfcPollerRunnable implements Runnable {
         @Override
         public void run() {
-            Log.i(TAG, "poll()");
+            Log.v(TAG, "poll()");
             for(GenericCardTerminal terminal: mTerminals.getTerminals()) {
                 try {
                     if(!terminal.isCardPresent()) {
@@ -94,7 +94,7 @@ public class AndroidNfcSCIO {
     private class NfcReaderCallback implements NfcAdapter.ReaderCallback {
         @Override
         public void onTagDiscovered(Tag tag) {
-            Log.i(TAG, "onTagDiscovered()");
+            Log.d(TAG, "onTagDiscovered()");
             IsoDep tagIso = IsoDep.get(tag);
             if(tagIso != null) {
                 mTerminals.newTag(tag, tagIso);

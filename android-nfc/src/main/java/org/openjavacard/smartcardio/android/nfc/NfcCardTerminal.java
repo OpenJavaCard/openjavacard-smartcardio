@@ -2,6 +2,7 @@ package org.openjavacard.smartcardio.android.nfc;
 
 import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
+import android.util.Log;
 import org.openjavacard.smartcardio.generic.GenericCardTerminal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class NfcCardTerminal extends GenericCardTerminal {
 
-    private static final Logger LOG = LoggerFactory.getLogger(NfcCardTerminal.class);
+    private static final String TAG = NfcCardTerminal.class.getName();
 
     private static final AtomicInteger ID_COUNTER = new AtomicInteger();
 
@@ -47,7 +48,7 @@ public class NfcCardTerminal extends GenericCardTerminal {
         if(protocol == null) {
             throw new NullPointerException();
         }
-        LOG.info("connect(" + protocol + ")");
+        Log.d(TAG, "connect(" + protocol + ")");
         if(protocol.equals("*") || protocol.equals("T=CL")) {
             try {
                 mIsoTag.connect();

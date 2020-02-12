@@ -12,7 +12,7 @@ public class NfcCardTerminals extends GenericCardTerminals {
     private static final String TAG = NfcCardTerminals.class.getName();
 
     void newTag(Tag tag, IsoDep isoTag) {
-        Log.i(TAG, "newTag()");
+        Log.d(TAG, "newTag()");
         try {
             isoTag.connect();
             addTerminal(new NfcCardTerminal(this, tag, isoTag));
