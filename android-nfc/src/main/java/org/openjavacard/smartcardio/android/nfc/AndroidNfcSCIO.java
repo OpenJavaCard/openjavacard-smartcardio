@@ -14,6 +14,7 @@ public class AndroidNfcSCIO {
 
     private static final String TAG = AndroidNfcSCIO.class.getName();
 
+    /** Polling interval for card removal detection */
     private static final long POLL_INTERVAL = 1000;
 
     /** Activity that we are using for NFC */
@@ -35,6 +36,10 @@ public class AndroidNfcSCIO {
         mTerminals = new NfcCardTerminals();
     }
 
+    public NfcCardTerminals getTerminals() {
+        return mTerminals;
+    }
+
     public boolean isNfcSupported() {
         NfcAdapter adapter = NfcAdapter.getDefaultAdapter(mActivity);
         return adapter != null;
@@ -49,10 +54,6 @@ public class AndroidNfcSCIO {
         return mAdapter != null;
     }
 
-    public NfcCardTerminals getTerminals() {
-        return mTerminals;
-    }
-
     public void enable() {
         Log.d(TAG, "enable()");
         NfcAdapter adapter = NfcAdapter.getDefaultAdapter(mActivity);
@@ -62,7 +63,7 @@ public class AndroidNfcSCIO {
                 | NfcAdapter.FLAG_READER_NFC_A;
         adapter.enableReaderMode(mActivity, new NfcReaderCallback(), flags, null);
         mAdapter = adapter;
-        mHandler.postDelayed(mPoller, 1000);
+        mHandler.postDelayed(mPoller, POLL_INTERVAL);
     }
 
     public void disable() {
